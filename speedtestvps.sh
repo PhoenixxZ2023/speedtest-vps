@@ -1,7 +1,3 @@
-export GREEN='\033[0;32m'
-export YELLOW='\033[1;33m'
-export NC='\033[0m' # No Color
-
 #!/bin/bash
 
 # Verificar se o speedtest-cli já está instalado
@@ -56,7 +52,7 @@ function show_menu {
 }
 
 # Mensagem de boas-vindas
-echo "Bem-vindo ao Speedtest CLI!"
+echo -e "${YELLOW}Bem-vindo ao Speedtest CLI!${NC}"
 
 # Executar o menu
 while true; do
