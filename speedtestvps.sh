@@ -1,56 +1,44 @@
+export GREEN='\033[0;32m'
+export YELLOW='\033[1;33m'
+export NC='\033[0m' # No Color
+
 #!/bin/bash
 
-# Função para definir as cores
-function set_color {
-    case $1 in
-        green) color="\e[32m" ;;
-        yellow) color="\e[33m" ;;
-        reset) color="\e[0m" ;;
-        *) color="" ;;
-    esac
-    echo -ne "$color"
-}
-
 # Verificar se o speedtest-cli já está instalado
-if command -v speedtest &>/dev/null; then
-    echo "O speedtest-cli já está instalado."
+if [ -f "speedtest-cli" ]; then
+    echo -e "${YELLOW}O script de teste de velocidade já está instalado.${NC}"
 else
     echo "================================================="
-    echo -e "$(set_color yellow)            Instalando speedtest-cli$(set_color reset)"
+    echo "            Baixando script de teste de velocidade"
     echo "================================================="
-    sudo apt update
-    sudo apt install speedtest-cli -y
-
-    # Verificar se a instalação foi bem-sucedida
-    if ! command -v speedtest &>/dev/null; then
-        echo "Houve um erro durante a instalação do speedtest-cli."
-        exit 1
-    fi
-
-    echo "Instalação concluída com sucesso!"
+    wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+    chmod +x speedtest-cli
+    echo "Script de teste de velocidade instalado com sucesso!"
 fi
 
 # Função para testar a velocidade da internet e exibir o link
 function test_speed {
     echo "Testando velocidade da internet..."
-    speedtest-cli --simple > speedtest_result.txt
+    ./speedtest-cli --simple > speedtest_result.txt
     cat speedtest_result.txt
+    server_ip=$(./speedtest-cli --server | grep -oP 'Server: \K\d+\.\d+\.\d+\.\d+')
+    echo "IP do servidor: $server_ip"
     echo "Link do resultado: https://www.speedtest.net/result/$(grep -oP 'Share result: \Khttps://www.speedtest.net/result/.+$' speedtest_result.txt)"
     rm speedtest_result.txt
-    read -p "$(set_color yellow)Pressione Enter para retornar ao menu principal...$(set_color reset)"
+    read -p "Pressione Enter para retornar ao menu principal..."
 }
 
 # Exibir menu
 function show_menu {
     clear
-    echo -e "$(set_color green)=================================================$(set_color reset)"
-    echo -e "$(set_color green)                Speedtest Menu                $(set_color reset)"
-    echo -e "$(set_color green)=================================================$(set_color reset)"
-    echo -e "$(set_color yellow)Selecione uma opção:$(set_color reset)"
-    echo -e "$(set_color yellow)1. Testar velocidade da internet$(set_color reset)"
-    echo -e "$(set_color yellow)2. Sair$(set_color reset)"
-    echo -e "$(set_color green)=================================================$(set_color reset)"
-    read -p "$(set_color yellow)Opção:$(set_color reset) " option
+    echo -e "${GREEN}=================================================${NC}"
+    echo -e "${GREEN}                Speedtest Menu                ${NC}"
+    echo -e "${GREEN}=================================================${NC}"
+    echo -e "${YELLOW}Selecione uma opção:${NC}"
+    echo -e "${YELLOW}1. Testar velocidade da internet${NC}"
+    echo -e "${YELLOW}2. Sair${NC}"
+    echo -e "${GREEN}=================================================${NC}"
+    read -p "${YELLOW}Opção: ${NC}" option
 
     # Executar a ação baseada na opção escolhida
     case $option in
@@ -62,7 +50,7 @@ function show_menu {
             exit 0
             ;;
         *)
-            echo "$(set_color yellow)Opção inválida. Por favor, escolha uma opção válida.$(set_color reset)"
+            echo -e "${YELLOW}Opção inválida. Por favor, escolha uma opção válida.${NC}"
             ;;
     esac
 }
