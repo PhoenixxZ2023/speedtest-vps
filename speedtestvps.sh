@@ -7,7 +7,7 @@ else
     echo "================================================="
     echo "            Baixando script de teste de velocidade"
     echo "================================================="
-    wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
+    wget -O speedtest-cli https://raw.githubusercontent.com/PhoenixxZ2023/speedtest-vps/master/speedtestvps.sh
     chmod +x speedtest-cli
     echo "Script de teste de velocidade instalado com sucesso!"
 fi
