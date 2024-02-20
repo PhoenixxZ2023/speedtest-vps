@@ -7,7 +7,7 @@ else
     echo "================================================="
     echo "            Baixando script de teste de velocidade"
     echo "================================================="
-    wget -O speedtest-cli https://raw.githubusercontent.com/PhoenixxZ2023/speedtest-vps/master/speedtestvps.sh
+    wget -O speedtest-cli https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py
     chmod +x speedtest-cli
     echo "Script de teste de velocidade instalado com sucesso!"
 fi
@@ -15,12 +15,11 @@ fi
 # Função para testar a velocidade da internet e exibir o link
 function test_speed {
     echo "Testando velocidade da internet..."
-    ./speedtest-cli --simple > speedtest_result.txt
-    cat speedtest_result.txt
-    server_ip=$(./speedtest-cli --server | grep -oP 'Server: \K\d+\.\d+\.\d+\.\d+')
-    echo "IP do servidor: $server_ip"
-    echo "Link do resultado: https://www.speedtest.net/result/$(grep -oP 'Share result: \Khttps://www.speedtest.net/result/.+$' speedtest_result.txt)"
-    rm speedtest_result.txt
+    speedtest_result=$(./speedtest-cli --simple)
+    server_id=$(echo "$speedtest_result" | grep -oP 'Hosted by \K.+(?= \()')
+    server_ip=$(echo "$speedtest_result" | grep -oP '\((\d{1,3}\.){3}\d{1,3}\)')
+    echo "Utilizando o servidor $server_id ($server_ip)"
+    echo "$speedtest_result"
     read -p "Pressione Enter para retornar ao menu principal..."
 }
 
