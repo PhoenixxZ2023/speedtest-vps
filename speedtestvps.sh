@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Verificar se o usuário é root
+if [ "$(id -u)" != "0" ]; then
+    echo "Este script precisa ser executado com permissões de root."
+    echo "Por favor, execute-o novamente usando 'sudo'."
+    exit 1
+fi
+
 # Definir cores
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
