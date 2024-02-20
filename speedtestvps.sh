@@ -11,6 +11,8 @@ function test_speed {
     clear
     echo -e "${BLUE}Testando a velocidade da internet...${NC}"
     speedtest-cli
+    echo -e "\n${YELLOW}Para mais informações e testes detalhados, visite o Speedtest da Ookla em:${NC}"
+    echo -e "${YELLOW}https://www.speedtest.net/${NC}"
     read -p "Pressione Enter para retornar ao menu..." input
 }
 
