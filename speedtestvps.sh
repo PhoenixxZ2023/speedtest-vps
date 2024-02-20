@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Definir cores
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
 # Verificar se o speedtest-cli já está instalado
 if [ -f "speedtest-cli" ]; then
     echo -e "${YELLOW}O script de teste de velocidade já está instalado.${NC}"
@@ -14,13 +19,14 @@ fi
 
 # Função para testar a velocidade da internet e exibir o link
 function test_speed {
-    echo "Testando velocidade da internet..."
+    echo -e "${GREEN}Testando velocidade da internet...${NC}"
     speedtest_result=$(./speedtest-cli --simple)
     server_id=$(echo "$speedtest_result" | grep -oP 'Hosted by \K.+(?= \()')
     server_ip=$(echo "$speedtest_result" | grep -oP '\((\d{1,3}\.){3}\d{1,3}\)')
-    echo "Utilizando o servidor $server_id ($server_ip)"
+    echo -e "${GREEN}Utilizando o servidor $server_id ($server_ip)${NC}"
     echo "$speedtest_result"
-    read -p "Pressione Enter para retornar ao menu principal..."
+    echo -e "${GREEN}Link do resultado: https://www.speedtest.net/result/$(./speedtest-cli --share | grep -oP 'https://www.speedtest.net/result/\S+')${NC}"
+    read -p "${YELLOW}Pressione Enter para retornar ao menu principal...${NC}"
 }
 
 # Exibir menu
@@ -41,7 +47,7 @@ function show_menu {
             test_speed
             ;;
         2)
-            echo "Saindo do script..."
+            echo -e "${YELLOW}Saindo do script...${NC}"
             exit 0
             ;;
         *)
