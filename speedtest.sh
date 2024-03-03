@@ -21,6 +21,9 @@ install_speedtest() {
     echo "O speedtest-cli foi instalado com sucesso. Você pode executar 'speedtest' para testar a velocidade da sua internet."
 }
 
+# Executa a função install_speedtest
+install_speedtest
+
 # Função para mostrar o menu
 show_menu() {
     echo "Menu:"
@@ -28,9 +31,6 @@ show_menu() {
     echo "2. Fazer teste de velocidade"
     echo "3. Sair"
 }
-
-# Executa a função install_speedtest
-install_speedtest
 
 # Loop do menu
 while true; do
